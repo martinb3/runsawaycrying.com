@@ -1,0 +1,43 @@
+<html>
+<head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+  <script>
+
+    String.prototype.ucfirst = function() {
+      return this.charAt(0).toUpperCase() + this.substr(1);
+    }
+
+    full_name = document.domain
+    name_part = full_name.replace(".runsawaycrying.com", "");
+
+    var url = '/cryinglist.json';
+    var j = [];
+    $.ajax({
+      type: 'GET',
+      url: url,
+      dataType: 'json',
+      success: function(data) { j = data;},
+      async: false
+    });
+
+    var image;
+    if(name_part in j.special_images) {
+      image = j.special_images[name_part]
+    }
+    else {
+      image = j.images[Math.floor(Math.random()*j.images.length)];
+    }
+
+    $(document).ready(function() {
+      var img = $(document.createElement('img'))
+      img.attr('src', image);
+      $(img).appendTo("body")
+
+      $("<p>" + name_part.ucfirst() + ", don't run away crying.</p>").appendTo("body");
+    });
+  </script>
+</head>
+<body>
+<!-- JQuery will append content here. -->
+</body>
+</html>
